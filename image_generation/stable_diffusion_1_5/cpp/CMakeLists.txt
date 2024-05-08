@@ -46,3 +46,17 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 add_dependencies(${PROJECT_NAME} openvino_tokenizers)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE TOKENIZERS_LIBRARY_PATH=\"$<TARGET_FILE:openvino_tokenizers>\")
+
+
+add_executable(openpose ${PROJECT_SOURCE_DIR}/src/openpose.cpp)
+target_include_directories(openpose PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${EIGEN3_INCLUDE_DIR})
+target_link_libraries(openpose PRIVATE
+    openvino::runtime
+    cxxopts::cxxopts
+    diffusers::diffusers
+    imwrite::imwrite)
+add_dependencies(openpose openvino_tokenizers)
+
+target_compile_definitions(openpose PRIVATE TOKENIZERS_LIBRARY_PATH=\"$<TARGET_FILE:openvino_tokenizers>\")
